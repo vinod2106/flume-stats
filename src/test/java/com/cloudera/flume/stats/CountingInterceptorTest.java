@@ -11,13 +11,15 @@ import org.junit.Test;
 public class CountingInterceptorTest {
 
 	/**
-	 * Verify that the call to collect also resets the count.
+	 * Verify that the call to collect also resets the count. Testing for both single event and event list.
+	 * Both scenarios tested for interceptor.
 	 */
 	@Test
 	public void testCollect() {
 		CountingInterceptor ci = new CountingInterceptor();
 		assertEquals(0, ci.collect());
 		
+		//collect method counts new events
 		ci.intercept((Event) null);
 		assertEquals(1, ci.collect());
 		assertEquals(0, ci.collect());
