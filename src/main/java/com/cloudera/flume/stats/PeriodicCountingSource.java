@@ -11,6 +11,7 @@ import org.apache.flume.EventDrivenSource;
 import org.apache.flume.Source;
 import org.apache.flume.conf.Configurable;
 import org.apache.flume.event.EventBuilder;
+import org.apache.flume.interceptor.Interceptor;
 import org.apache.flume.source.AbstractSource;
 
 public class PeriodicCountingSource extends AbstractSource implements EventDrivenSource, Configurable {
@@ -65,8 +66,8 @@ public class PeriodicCountingSource extends AbstractSource implements EventDrive
 			while(true) {
 				sleep();
 				int count = 0;
-				for(CountingInterceptor i : InterceptorRegistry.getInstances(CountingInterceptor.class)) {
-					count += i.collect();
+				for(Interceptor i :InterceptorRegistry.getInstances(CountingInterceptor.class)) {
+					count += ((CountingInterceptor) i).collect();
 				}
 				publish(count);
 			}
