@@ -13,16 +13,11 @@
 			<name>Maven Central</name>
 			<url>http://repo1.maven.org/maven2/</url>
 		</repository>
-		<repository>
-			<id>cloudera-repo</id>
-			<name>Cloudera CDH</name>
-			<url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
-		</repository>
 	</repositories>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<flume.version>1.4.0-cdh4.5.0</flume.version>
+		<flume.version>1.7.0</flume.version>
 	</properties>
 
 	<build>
@@ -89,7 +84,6 @@
 			<version>3.0.5</version>
 		</dependency>
 
-		<!-- Hadoop Dependencies -->
 		<dependency>
 			<groupId>org.apache.flume</groupId>
 			<artifactId>flume-ng-core</artifactId>
