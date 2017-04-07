@@ -23,7 +23,6 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<flume.version>1.4.0-cdh4.5.0</flume.version>
-		<hadoop.version>2.0.0-cdh4.5.0</hadoop.version>
 	</properties>
 
 	<build>
@@ -103,23 +102,6 @@
 			<version>${flume.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- <dependency> <groupId>jdk.tools</groupId> <artifactId>jdk.tools</artifactId> 
-			<version>1.8.0_101</version> <scope>system</scope> <systemPath>${JAVA_HOME}/lib/tools.jar</systemPath> 
-			</dependency> -->
-		<dependency>
-			<groupId>org.apache.hadoop</groupId>
-			<artifactId>hadoop-common</artifactId>
-			<version>${hadoop.version}</version>
-			<scope>provided</scope>
-			<exclusions>
-				<exclusion>
-					<artifactId>jdk.tools</artifactId>
-					<groupId>jdk.tools</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-
 	</dependencies>
 
 
