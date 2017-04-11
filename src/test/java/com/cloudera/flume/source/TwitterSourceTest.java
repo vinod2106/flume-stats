@@ -1,4 +1,4 @@
-package com.cloudera.flume.stats;
+package com.cloudera.flume.source;
 
 import static org.junit.Assert.*;
 
@@ -6,6 +6,8 @@ import org.apache.flume.Context;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.cloudera.flume.source.TwitterSourceConstants;
 
 public class TwitterSourceTest {
 	private static final Logger LOG = Logger.getLogger(TwitterSourceTest.class);

@@ -1,18 +1,17 @@
-package com.cloudera.flume.stats;
+package com.cloudera.flume.source;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.flume.Context;
 import org.apache.flume.Event;
 import org.apache.flume.EventDrivenSource;
 import org.apache.flume.channel.ChannelProcessor;
 import org.apache.flume.conf.Configurable;
 import org.apache.flume.event.EventBuilder;
+import org.apache.flume.instrumentation.SourceCounter;
 import org.apache.flume.source.AbstractSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import twitter4j.FilterQuery;
 import twitter4j.StallWarning;
 import twitter4j.Status;
@@ -27,6 +26,7 @@ import twitter4j.json.DataObjectFactory;
 public class TwitterSource extends AbstractSource implements EventDrivenSource, Configurable {
 	private static final Logger logger = LoggerFactory.getLogger(TwitterSource.class);
 	private String[] keywords;
+	private SourceCounter counter;
 
 	/** Information necessary for accessing the Twitter API */
 	private String consumerKey;
@@ -35,10 +35,13 @@ public class TwitterSource extends AbstractSource implements EventDrivenSource, 
 	private String accessTokenSecret;
 	/** The actual Twitter stream. It's set up to collect raw JSON data */
 	private TwitterStream twitterStream;
+	private int tweetCnt = 0;
 
 	@Override
 	public void configure(Context context) {
 		// TODO Auto-generated method stub
+		this.counter = new SourceCounter(this.getName());
+
 		consumerKey = context.getString(TwitterSourceConstants.CONSUMER_KEY_KEY);
 		consumerSecret = context.getString(TwitterSourceConstants.CONSUMER_SECRET_KEY);
 		accessToken = context.getString(TwitterSourceConstants.ACCESS_TOKEN_KEY);
@@ -70,6 +73,7 @@ public class TwitterSource extends AbstractSource implements EventDrivenSource, 
 	@Override
 	public synchronized void start() {
 		// TODO Auto-generated method stub
+		this.counter.start();
 
 		final ChannelProcessor channel = getChannelProcessor();
 		final Map<String, String> headers = new HashMap<String, String>();
@@ -79,10 +83,16 @@ public class TwitterSource extends AbstractSource implements EventDrivenSource, 
 			@Override
 			public void onStatus(Status status) {
 				// TODO Auto-generated method stub
-				logger.debug("tweet arrived");
+				logger.debug("##################### tweet arrived");
+				// Count how many events we receive...
+				counter.incrementEventReceivedCount();
+
 				headers.put("timestamp", String.valueOf(status.getCreatedAt().getTime()));
 				Event event = EventBuilder.withBody(DataObjectFactory.getRawJSON(status).getBytes(), headers);
 				channel.processEvent(event);
+				counter.incrementEventAcceptedCount();
+				tweetCnt++;
+				logger.debug("##################### No of tweets till now" + tweetCnt);
 			}
 
 			@Override
@@ -132,14 +142,20 @@ public class TwitterSource extends AbstractSource implements EventDrivenSource, 
 			twitterStream.filter(query);
 		}
 		super.start();
+		this.counter.setOpenConnectionCount(1);
+
 	}
 
 	@Override
 	public synchronized void stop() {
 		// TODO Auto-generated method stub
+		this.counter.setOpenConnectionCount(0);
 		logger.debug("Shutting down Twitter sample stream...");
 		twitterStream.shutdown();
+		// ...and stop the counter.
+		this.counter.stop();
 		super.stop();
+
 	}
 
 }

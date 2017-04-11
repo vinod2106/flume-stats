@@ -1,4 +1,4 @@
-package com.cloudera.flume.stats;
+package com.cloudera.flume.source;
 
 public class TwitterSourceConstants {
 	public static final String CONSUMER_KEY_KEY = "consumerKey";
