@@ -1,4 +1,4 @@
-package com.cloudera.flume.stats;
+package com.shavinod.flume.stats;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;

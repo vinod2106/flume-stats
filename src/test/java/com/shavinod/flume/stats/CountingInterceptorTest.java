@@ -1,4 +1,4 @@
-package com.cloudera.flume.stats;
+package com.shavinod.flume.stats;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.apache.flume.Event;
 import org.junit.Test;
+
+import com.shavinod.flume.stats.CountingInterceptor;
 
 public class CountingInterceptorTest {
 

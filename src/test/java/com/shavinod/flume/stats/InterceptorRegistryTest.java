@@ -1,8 +1,10 @@
-package com.cloudera.flume.stats;
+package com.shavinod.flume.stats;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
+import com.shavinod.flume.stats.InterceptorRegistry;
 
 public class InterceptorRegistryTest {
 	

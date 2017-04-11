@@ -1,4 +1,4 @@
-package com.cloudera.flume.stats;
+package com.shavinod.flume.stats;
 
 import java.util.HashMap;
 import java.util.Map;
